@@ -1,9 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import Navbar from "../components/Navbar";
 import ScrollAnimation from "../components/ScrollAnimation";
 
 const INSTAGRAM_USERNAME = "stefanovictattoo";
+
+// Gallery images - dodaj više slika ovde kada ih imaš
+const galleryImages = [
+  { src: "/gallery/tattoo1.jpg", alt: "Tattoo 1" },
+  // Dodaj više slika ovde:
+  // { src: "/gallery/tattoo2.jpg", alt: "Tattoo 2" },
+  // { src: "/gallery/tattoo3.jpg", alt: "Tattoo 3" },
+];
 
 export default function Home() {
   const instagramUrl = `https://www.instagram.com/${INSTAGRAM_USERNAME}/`;
@@ -162,19 +171,37 @@ export default function Home() {
             </h2>
           </ScrollAnimation>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {Array.from({ length: 9 }).map((_, i) => (
-              <ScrollAnimation key={i} delay={i * 50}>
-                <div className="aspect-square bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 relative overflow-hidden group cursor-pointer transform hover:scale-105 transition-transform duration-300">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center opacity-50 group-hover:opacity-100 transition-opacity">
-                      <div className="w-16 h-16 border-2 border-red-600 mx-auto mb-2 transform group-hover:rotate-45 transition-transform duration-300"></div>
-                      <p className="text-sm text-gray-400 font-medium">Placeholder {i + 1}</p>
+            {galleryImages.length > 0 ? (
+              galleryImages.map((image, i) => (
+                <ScrollAnimation key={i} delay={i * 50}>
+                  <div className="aspect-square relative overflow-hidden group cursor-pointer transform hover:scale-105 transition-transform duration-300 border border-gray-700">
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                </ScrollAnimation>
+              ))
+            ) : (
+              // Fallback placeholder ako nema slika
+              Array.from({ length: 9 }).map((_, i) => (
+                <ScrollAnimation key={i} delay={i * 50}>
+                  <div className="aspect-square bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 relative overflow-hidden group cursor-pointer transform hover:scale-105 transition-transform duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-center opacity-50 group-hover:opacity-100 transition-opacity">
+                        <div className="w-16 h-16 border-2 border-red-600 mx-auto mb-2 transform group-hover:rotate-45 transition-transform duration-300"></div>
+                        <p className="text-sm text-gray-400 font-medium">Placeholder {i + 1}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </ScrollAnimation>
-            ))}
+                </ScrollAnimation>
+              ))
+            )}
           </div>
         </div>
       </section>
